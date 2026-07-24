@@ -93,6 +93,40 @@ class AppController {
         }).catch(err => console.warn("Firebase write error:", err));
     }
 
+    deleteAccount() {
+        // Delete from Firebase if configured
+        if (window.firebaseReady && window.firebaseDb && this.player.name) {
+            try {
+                const db = window.firebaseDb;
+                const dbRef = window.firebaseRef;
+                const dbSet = window.firebaseSet;
+                const nameKey = this.player.name.replace(/[.#$[\]]/g, '_').toLowerCase();
+                const playerRef = dbRef(db, 'leaderboard/' + nameKey);
+                dbSet(playerRef, null); // Remove entry
+            } catch (e) {
+                console.warn("Firebase remove error:", e);
+            }
+        }
+
+        // Clear local storage
+        localStorage.removeItem('hillclimb_player_save');
+
+        // Reset player object
+        this.player = {
+            name: "Driver 1",
+            avatar: "🏎️",
+            coins: 1000,
+            gems: 10,
+            totalDistance: 0,
+            totalCoinsEarned: 0,
+            totalFlips: 0,
+            stageRecords: { highway: 0, countryside: 0, desert: 0, moon: 0, arctic: 0, volcano: 0 }
+        };
+
+        alert("Account deleted successfully!");
+        window.location.reload();
+    }
+
     updateHeaderBadges() {
         document.getElementById('player-name').innerText = this.player.name;
         document.getElementById('player-coins').innerText = this.player.coins;
@@ -122,6 +156,16 @@ class AppController {
                 this.hideModal('login-modal');
             }
         });
+
+        // Delete Account Button Handler
+        const deleteBtn = document.getElementById('delete-account-btn');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                if (confirm(`Are you sure you want to delete profile "${this.player.name}"?\nAll coins, unlocked vehicles, and leaderboard entries will be deleted!`)) {
+                    this.deleteAccount();
+                }
+            });
+        }
 
         // Dashboard Tabs Navigation
         const tabBtns = document.querySelectorAll('.tab-btn');

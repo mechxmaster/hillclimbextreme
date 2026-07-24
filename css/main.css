@@ -1297,72 +1297,191 @@ body, html {
     }
     #minimap-canvas {
         width: 160px;
-        height: 36px;
-    }
-    .minimap-label {
-        font-size: 0.5rem;
-    }
-    .brand-logo { display: none; }
-    .pedal-label { font-size: 0.7rem; }
-    .fuel-container { width: 160px; }
-    .fuel-header { font-size: 0.75rem; }
-    .vehicle-display-box { height: 160px; }
-    #garage-vehicle-canvas { width: 100%; height: 160px; }
+/* DELETE ACCOUNT BUTTON */
+.delete-account-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: rgba(231, 76, 60, 0.15);
+    border: 1px solid rgba(231, 76, 60, 0.4);
+    color: #e74c3c;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-/* Small Phones (480px) */
-@media (max-width: 480px) {
-    #top-bar {
-        height: 48px;
-        padding: 0 8px;
+.delete-account-btn:hover {
+    background: rgba(231, 76, 60, 0.3);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE FIXES
+   ========================================== */
+
+/* Safe area inset support for mobile notch / gesture bars */
+#app-container {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Tablets and Mobile Landscape */
+@media (max-width: 960px) {
+    #dashboard-screen {
+        padding: 10px 15px 25px 15px;
     }
-    .brand-title { font-size: 1.1rem; }
-    .resource-badge { padding: 4px 10px; font-size: 0.8rem; }
-    .dashboard-tabs { gap: 4px; }
+    .dashboard-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 12px;
+    }
+    .tab-btn {
+        font-size: 1.1rem;
+        padding: 8px 16px;
+        flex: 1 1 auto;
+        justify-content: center;
+        min-width: 100px;
+    }
+    .garage-layout {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .vehicle-carousel {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        max-height: 240px;
+    }
+    .vehicle-card {
+        padding: 10px;
+    }
+    .vehicle-display-box {
+        height: 180px;
+    }
+    #garage-vehicle-canvas {
+        width: 100%;
+        height: 180px;
+    }
+}
+
+/* Small Phones & Portrait Mobile (max-width: 600px) */
+@media (max-width: 600px) {
+    #top-bar {
+        height: 52px;
+        padding: 0 10px;
+    }
+    .brand-title {
+        font-size: 1.3rem;
+    }
+    .brand-logo {
+        display: none;
+    }
+    .user-resources {
+        gap: 6px;
+    }
+    .resource-badge {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    .profile-badge #player-name {
+        max-width: 65px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .dashboard-tabs {
+        gap: 4px;
+        margin-bottom: 10px;
+    }
     .tab-btn {
         font-size: 0.95rem;
-        padding: 7px 12px;
+        padding: 7px 10px;
+        border-radius: 8px;
     }
-    .tab-icon { display: none; }
+    .tab-icon {
+        font-size: 1rem;
+    }
     .stages-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+        gap: 10px;
     }
-    .stage-thumb { height: 80px; }
-    .stage-thumb-icon { font-size: 2.2rem; }
-    .stage-body { padding: 10px 12px; }
-    .stage-body h3 { font-size: 1.2rem; }
-    .pedal { width: 90px; height: 80px; }
-    .pedal-top-icon { font-size: 1.4rem; }
-    .pedal-label { font-size: 0.65rem; }
-    .fuel-container { width: 130px; padding: 6px 10px; }
-    .fuel-bar-bg { height: 12px; }
-    .hud-dials { display: none; }  /* hide dials on very small screens */
-    #minimap-canvas { width: 130px; height: 32px; }
-    .minimap-label { display: none; }
-    .upgrades-grid { grid-template-columns: 1fr; }
-    .section-title { font-size: 1.6rem; }
-}
-
-/* Extra Small (320px) */
-@media (max-width: 360px) {
-    .stages-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-    .pedal { width: 78px; height: 72px; }
-    .fuel-container { width: 110px; }
-    .hud-pill { display: none; }  /* only show minimap on very tiny screens */
-    #minimap-canvas { width: 110px; height: 28px; }
-}
-
-/* Touch devices: increase pedal tap area */
-@media (pointer: coarse) {
+    .stage-thumb {
+        height: 90px;
+    }
+    .stage-thumb-icon {
+        font-size: 2.2rem;
+    }
+    .stage-body {
+        padding: 8px 10px;
+    }
+    .stage-body h3 {
+        font-size: 1.1rem;
+    }
+    .upgrades-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .modal-card {
+        width: 92%;
+        max-width: 420px;
+        padding: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    /* Controls and Pedals on mobile */
+    #pedal-controls {
+        padding: 0 5px;
+    }
     .pedal {
-        min-width: 90px;
-        min-height: 80px;
+        width: 100px;
+        height: 85px;
+    }
+    .pedal-top-icon {
+        font-size: 1.3rem;
+    }
+    .pedal-label {
+        font-size: 0.7rem;
+    }
+    .fuel-container {
+        width: 130px;
+        padding: 6px 10px;
+    }
+    .hud-dials {
+        display: none;
+    }
+    #minimap-canvas {
+        width: 120px;
+        height: 30px;
+    }
+    .minimap-label {
+        display: none;
+    }
+}
+
+/* Extra Small Devices / Foldable Phones (320px - 380px) */
+@media (max-width: 380px) {
+    .dashboard-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
     .tab-btn {
-        min-height: 44px;
+        font-size: 0.85rem;
+        padding: 6px 6px;
     }
-    .upgrade-btn {
-        min-height: 44px;
+    .stages-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    .pedal {
+        width: 82px;
+        height: 74px;
+    }
+    .fuel-container {
+        width: 100px;
     }
 }
