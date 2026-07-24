@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Hill Climb Extreme | Racing Game</title>
-    <meta name="description" content="Experience Hill Climb Extreme - a full-featured HTML5 physics driving game with upgrades, stages, and extreme flips!">
+    <meta name="description"
+        content="Experience Hill Climb Extreme - a full-featured HTML5 physics driving game with upgrades, stages, and extreme flips!">
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#f39c12">
     <meta name="mobile-web-app-capable" content="yes">
@@ -17,9 +20,12 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Teko:wght@600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
     <div id="app-container">
 
@@ -57,7 +63,7 @@
             </nav>
 
             <div class="dashboard-content">
-                
+
                 <!-- TAB 1: GARAGE & VEHICLES -->
                 <section id="tab-garage" class="tab-content active">
                     <div class="garage-layout">
@@ -88,8 +94,11 @@
                                         <span class="stat-label">ENGINE</span>
                                         <span class="stat-level" id="lvl-engine">Lvl 1</span>
                                     </div>
-                                    <div class="stat-bar"><div class="stat-fill" id="bar-engine" style="width: 10%;"></div></div>
-                                    <button class="upgrade-btn" id="btn-upgrade-engine">UPGRADE 🪙 <span class="cost">100</span></button>
+                                    <div class="stat-bar">
+                                        <div class="stat-fill" id="bar-engine" style="width: 10%;"></div>
+                                    </div>
+                                    <button class="upgrade-btn" id="btn-upgrade-engine">UPGRADE 🪙 <span
+                                            class="cost">100</span></button>
                                 </div>
 
                                 <div class="upgrade-card" data-stat="suspension">
@@ -98,8 +107,11 @@
                                         <span class="stat-label">SUSPENSION</span>
                                         <span class="stat-level" id="lvl-suspension">Lvl 1</span>
                                     </div>
-                                    <div class="stat-bar"><div class="stat-fill" id="bar-suspension" style="width: 10%;"></div></div>
-                                    <button class="upgrade-btn" id="btn-upgrade-suspension">UPGRADE 🪙 <span class="cost">100</span></button>
+                                    <div class="stat-bar">
+                                        <div class="stat-fill" id="bar-suspension" style="width: 10%;"></div>
+                                    </div>
+                                    <button class="upgrade-btn" id="btn-upgrade-suspension">UPGRADE 🪙 <span
+                                            class="cost">100</span></button>
                                 </div>
 
                                 <div class="upgrade-card" data-stat="tires">
@@ -108,8 +120,11 @@
                                         <span class="stat-label">TIRES</span>
                                         <span class="stat-level" id="lvl-tires">Lvl 1</span>
                                     </div>
-                                    <div class="stat-bar"><div class="stat-fill" id="bar-tires" style="width: 10%;"></div></div>
-                                    <button class="upgrade-btn" id="btn-upgrade-tires">UPGRADE 🪙 <span class="cost">100</span></button>
+                                    <div class="stat-bar">
+                                        <div class="stat-fill" id="bar-tires" style="width: 10%;"></div>
+                                    </div>
+                                    <button class="upgrade-btn" id="btn-upgrade-tires">UPGRADE 🪙 <span
+                                            class="cost">100</span></button>
                                 </div>
 
                                 <div class="upgrade-card" data-stat="drive">
@@ -118,8 +133,11 @@
                                         <span class="stat-label">4WD / TURBO</span>
                                         <span class="stat-level" id="lvl-drive">Lvl 1</span>
                                     </div>
-                                    <div class="stat-bar"><div class="stat-fill" id="bar-drive" style="width: 10%;"></div></div>
-                                    <button class="upgrade-btn" id="btn-upgrade-drive">UPGRADE 🪙 <span class="cost">100</span></button>
+                                    <div class="stat-bar">
+                                        <div class="stat-fill" id="bar-drive" style="width: 10%;"></div>
+                                    </div>
+                                    <button class="upgrade-btn" id="btn-upgrade-drive">UPGRADE 🪙 <span
+                                            class="cost">100</span></button>
                                 </div>
                             </div>
 
@@ -214,7 +232,7 @@
             <div id="game-hud">
                 <div class="hud-top-bar">
                     <button id="pause-game-btn" class="hud-btn">⏸️ PAUSE</button>
-                    
+
                     <!-- MINIMAP: Terrain Preview Strip (like real Hill Climb Racing) -->
                     <div id="minimap-container">
                         <canvas id="minimap-canvas" width="320" height="52"></canvas>
@@ -288,7 +306,8 @@
                 <h2>DRIVER LOGIN / PROFILE</h2>
                 <p>Enter your driver alias to load or create profile progress:</p>
                 <form id="login-form">
-                    <input type="text" id="username-input" placeholder="Enter Driver Name..." maxlength="16" required autocomplete="off">
+                    <input type="text" id="username-input" placeholder="Enter Driver Name..." maxlength="16" required
+                        autocomplete="off">
                     <div class="avatar-select">
                         <label>Choose Avatar:</label>
                         <div class="avatar-options">
@@ -300,7 +319,8 @@
                         </div>
                     </div>
                     <button type="submit" class="primary-cta-btn">SAVE PROFILE & DRIVE 🏁</button>
-                    <button type="button" id="delete-account-btn" class="delete-account-btn">🗑️ DELETE MY ACCOUNT</button>
+                    <button type="button" id="delete-account-btn" class="delete-account-btn">🗑️ DELETE MY
+                        ACCOUNT</button>
                 </form>
             </div>
         </div>
@@ -331,7 +351,7 @@
         <div id="gameover-modal" class="modal-overlay">
             <div class="modal-card glass-card gameover-card">
                 <h2 id="gameover-reason">OUT OF FUEL!</h2>
-                
+
                 <div class="summary-stats-box">
                     <div class="summary-row">
                         <span>Distance Covered:</span>
@@ -413,4 +433,5 @@
         }
     </script>
 </body>
+
 </html>
