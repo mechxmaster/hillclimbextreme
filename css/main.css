@@ -1319,169 +1319,201 @@ body, html {
     transform: translateY(-1px);
 }
 
-/* ==========================================
-   MOBILE & TABLET RESPONSIVE FIXES
-   ========================================== */
+/* Sticky CTA Button rule so START RACE is always visible on all devices */
+#start-race-btn {
+    position: sticky;
+    bottom: 10px;
+    z-index: 100;
+    margin-top: 15px;
+    box-shadow: 0 6px 25px rgba(241, 196, 15, 0.6);
+    touch-action: manipulation;
+}
+
+/* Prevent double-tap zoom & zooming glitches on touch devices */
+html, body, button, input, canvas, .pedal, .tab-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
 
 /* Safe area inset support for mobile notch / gesture bars */
 #app-container {
+    height: 100dvh;
+    max-height: 100dvh;
     padding-left: env(safe-area-inset-left, 0px);
     padding-right: env(safe-area-inset-right, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Tablets and Mobile Landscape */
-@media (max-width: 960px) {
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE RE-ARCHITECTURE
+   ========================================== */
+
+@media (max-width: 900px) {
     #dashboard-screen {
-        padding: 10px 15px 25px 15px;
+        padding: 8px 12px 20px 12px;
+        height: calc(100dvh - 52px);
     }
+
+    /* Single-line horizontal scroll tab navigation strip */
     .dashboard-tabs {
-        flex-wrap: wrap;
-        justify-content: center;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
         gap: 6px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
+        padding: 4px 2px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+    }
+    .dashboard-tabs::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
     }
     .tab-btn {
-        font-size: 1.1rem;
-        padding: 8px 16px;
-        flex: 1 1 auto;
-        justify-content: center;
-        min-width: 100px;
+        flex: 0 0 auto;
+        font-size: 1rem;
+        padding: 6px 14px;
+        border-radius: 10px;
+        white-space: nowrap;
     }
+
+    /* Garage layout on mobile: Vertical stack with Horizontal Swipe Car Selector */
     .garage-layout {
-        grid-template-columns: 1fr;
-        gap: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
+    .vehicle-carousel-container {
+        width: 100%;
+    }
+    .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+
+    /* Horizontal swipe bar for selecting vehicles on mobile */
     .vehicle-carousel {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        max-height: 240px;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        gap: 10px;
+        max-height: none;
+        padding: 4px 2px 10px 2px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .vehicle-carousel::-webkit-scrollbar {
+        display: none;
     }
     .vehicle-card {
-        padding: 10px;
+        flex: 0 0 140px;
+        min-width: 140px;
+        padding: 8px 10px;
+    }
+    .vehicle-card .card-icon {
+        font-size: 1.8rem;
+    }
+    .vehicle-card h3 {
+        font-size: 1rem;
+    }
+
+    /* Tuning Panel & Canvas */
+    .vehicle-tuning-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
     .vehicle-display-box {
-        height: 180px;
+        height: 140px;
+        padding: 8px;
     }
     #garage-vehicle-canvas {
         width: 100%;
-        height: 180px;
+        height: 140px;
+    }
+
+    /* Upgrades grid: 2 columns on mobile so all 4 upgrades fit neatly */
+    .upgrades-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .upgrade-card {
+        padding: 8px 10px;
+    }
+    .upgrade-btn {
+        padding: 6px 8px;
+        font-size: 0.85rem;
+    }
+
+    /* Modals responsive */
+    .modal-card {
+        width: 94%;
+        max-width: 400px;
+        padding: 16px;
+        max-height: 85dvh;
+    }
+
+    /* Leaderboard on mobile */
+    .leaderboard-header, .leaderboard-row {
+        grid-template-columns: 60px 1fr 100px;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+    .lb-col-dist {
+        font-size: 1rem;
     }
 }
 
-/* Small Phones & Portrait Mobile (max-width: 600px) */
-@media (max-width: 600px) {
+/* Extra Small Phones (max-width: 480px) */
+@media (max-width: 480px) {
     #top-bar {
-        height: 52px;
-        padding: 0 10px;
+        height: 48px;
+        padding: 0 8px;
     }
     .brand-title {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
     .brand-logo {
         display: none;
     }
-    .user-resources {
-        gap: 6px;
-    }
     .resource-badge {
-        padding: 4px 8px;
-        font-size: 0.8rem;
+        padding: 3px 7px;
+        font-size: 0.75rem;
     }
     .profile-badge #player-name {
-        max-width: 65px;
+        max-width: 55px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-    .dashboard-tabs {
-        gap: 4px;
-        margin-bottom: 10px;
-    }
-    .tab-btn {
-        font-size: 0.95rem;
-        padding: 7px 10px;
-        border-radius: 8px;
-    }
-    .tab-icon {
-        font-size: 1rem;
-    }
-    .stages-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-    .stage-thumb {
-        height: 90px;
-    }
-    .stage-thumb-icon {
-        font-size: 2.2rem;
-    }
-    .stage-body {
-        padding: 8px 10px;
-    }
-    .stage-body h3 {
-        font-size: 1.1rem;
-    }
     .upgrades-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    .modal-card {
-        width: 92%;
-        max-width: 420px;
-        padding: 20px;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-    /* Controls and Pedals on mobile */
-    #pedal-controls {
-        padding: 0 5px;
-    }
-    .pedal {
-        width: 100px;
-        height: 85px;
-    }
-    .pedal-top-icon {
-        font-size: 1.3rem;
-    }
-    .pedal-label {
-        font-size: 0.7rem;
-    }
-    .fuel-container {
-        width: 130px;
-        padding: 6px 10px;
-    }
-    .hud-dials {
-        display: none;
-    }
-    #minimap-canvas {
-        width: 120px;
-        height: 30px;
-    }
-    .minimap-label {
-        display: none;
-    }
-}
-
-/* Extra Small Devices / Foldable Phones (320px - 380px) */
-@media (max-width: 380px) {
-    .dashboard-tabs {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .tab-btn {
-        font-size: 0.85rem;
-        padding: 6px 6px;
-    }
-    .stages-grid {
         grid-template-columns: 1fr 1fr;
         gap: 6px;
     }
+    .stat-label {
+        font-size: 0.7rem;
+    }
+    .upgrade-btn {
+        font-size: 0.75rem;
+        padding: 5px;
+    }
     .pedal {
-        width: 82px;
-        height: 74px;
+        width: 90px;
+        height: 75px;
+    }
+    .pedal-top-icon {
+        font-size: 1.2rem;
+    }
+    .pedal-label {
+        font-size: 0.65rem;
     }
     .fuel-container {
-        width: 100px;
+        width: 110px;
+        padding: 4px 8px;
+    }
+    #minimap-canvas {
+        width: 110px;
+        height: 28px;
     }
 }

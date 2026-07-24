@@ -2,12 +2,12 @@
   "name": "Hill Climb Extreme",
   "short_name": "HCE",
   "description": "Hill Climb Extreme - HTML5 2D physics racing game with upgrades, stages, and extreme flips!",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "#0a0e1a",
   "theme_color": "#f39c12",
-  "scope": "/",
+  "scope": "./",
   "categories": ["games", "entertainment"],
   "icons": [
     {
