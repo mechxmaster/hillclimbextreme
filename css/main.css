@@ -639,17 +639,30 @@ body, html {
     color: white;
 }
 
-/* STATS PANEL */
+/* STATS LAYOUT & GLOBAL LEADERBOARD */
+.stats-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+    width: 100%;
+}
+
+.stats-left, .stats-right {
+    display: flex;
+    flex-direction: column;
+}
+
 .stats-panel {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    max-width: 600px;
+    gap: 12px;
 }
 
 .stat-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 14px 20px;
     background: rgba(255, 255, 255, 0.04);
     border-radius: 12px;
@@ -661,6 +674,97 @@ body, html {
     font-weight: 800;
     color: var(--accent-yellow);
 }
+
+.leaderboard-panel {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.leaderboard-header {
+    display: grid;
+    grid-template-columns: 100px 1fr 140px;
+    padding: 12px 18px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 2px solid var(--card-border);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #a0aec0;
+    letter-spacing: 1px;
+}
+
+#leaderboard-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.leaderboard-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 140px;
+    padding: 12px 18px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 1.05rem;
+    transition: background 0.2s;
+}
+
+.leaderboard-row:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.leaderboard-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.leaderboard-row.player-row {
+    background: rgba(46, 204, 113, 0.12) !important;
+    border-top: 1px solid rgba(46, 204, 113, 0.3);
+    border-bottom: 1px solid rgba(46, 204, 113, 0.3);
+    font-weight: bold;
+    box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.1);
+}
+
+.lb-col-rank {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+.rank-badge-1 { color: #f1c40f; text-shadow: 0 0 8px rgba(241, 196, 15, 0.3); }
+.rank-badge-2 { color: #bdc3c7; }
+.rank-badge-3 { color: #e67e22; }
+
+.lb-col-driver {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lb-col-dist {
+    text-align: right;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+    color: #e2e8f0;
+}
+
+.player-row .lb-col-driver {
+    color: var(--accent-green);
+}
+.player-row .lb-col-dist {
+    color: var(--accent-green);
+}
+
+/* Tablet & Mobile responsive for Stats tab */
+@media (max-width: 900px) {
+    .stats-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
 
 /* ==========================================
    GAMEPLAY SCREEN & HUD OVERLAY

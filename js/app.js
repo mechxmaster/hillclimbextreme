@@ -436,6 +436,44 @@ class AppController {
         document.getElementById('stat-total-flips').innerText = `${this.player.totalFlips}`;
         document.getElementById('stat-stages-count').innerText = `${Object.keys(STAGE_THEMES).length} Unlocked`;
         document.getElementById('stat-vehicles-count').innerText = `${this.cardManager.unlockedVehicles.length} / ${Object.keys(VEHICLES_DATABASE).length}`;
+
+        // Global Leaderboard Population
+        const lbContainer = document.getElementById('leaderboard-list');
+        if (!lbContainer) return;
+        lbContainer.innerHTML = '';
+
+        // AI Rivals
+        const list = [
+            { name: "Bill (Jeep Pro)", avatar: "👨‍✈️", distance: 15430, isPlayer: false },
+            { name: "Suresh (Tank Driver)", avatar: "👽", distance: 9840, isPlayer: false },
+            { name: "Elena (Buggy Queen)", avatar: "👩‍🚀", distance: 7520, isPlayer: false },
+            { name: "Jack (Crawler King)", avatar: "🤖", distance: 4120, isPlayer: false },
+            { name: "Sarah (Rover Master)", avatar: "👩", distance: 2310, isPlayer: false },
+            { name: "Kenji (Turbo Rookie)", avatar: "🐱", distance: 1200, isPlayer: false },
+            // Add current player
+            { name: `${this.player.name} (YOU)`, avatar: this.player.avatar, distance: this.player.totalDistance, isPlayer: true }
+        ];
+
+        // Sort descending by total distance driven
+        list.sort((a, b) => b.distance - a.distance);
+
+        // Render rows
+        list.forEach((item, index) => {
+            const rank = index + 1;
+            let rankDisplay = `#${rank}`;
+            if (rank === 1) rankDisplay = "🥇 1st";
+            else if (rank === 2) rankDisplay = "🥈 2nd";
+            else if (rank === 3) rankDisplay = "🥉 3rd";
+
+            const row = document.createElement('div');
+            row.className = `leaderboard-row ${item.isPlayer ? 'player-row' : ''}`;
+            row.innerHTML = `
+                <span class="lb-col-rank rank-badge-${rank}">${rankDisplay}</span>
+                <span class="lb-col-driver">${item.avatar} ${item.name}</span>
+                <span class="lb-col-dist">${item.distance.toLocaleString()} m</span>
+            `;
+            lbContainer.appendChild(row);
+        });
     }
 
     openChestAnimation(chestType) {

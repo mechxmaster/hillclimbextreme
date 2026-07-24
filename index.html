@@ -153,27 +153,44 @@
 
                 <!-- TAB 4: PLAYER STATS -->
                 <section id="tab-stats" class="tab-content">
-                    <h2 class="section-title">DRIVER CAREER STATISTICS</h2>
-                    <div class="stats-panel glass-card">
-                        <div class="stat-item">
-                            <span class="stat-name">Total Distance Driven</span>
-                            <span class="stat-val" id="stat-total-dist">0 m</span>
+                    <div class="stats-layout">
+                        <div class="stats-left">
+                            <h2 class="section-title">DRIVER CAREER STATISTICS</h2>
+                            <div class="stats-panel glass-card">
+                                <div class="stat-item">
+                                    <span class="stat-name">Total Distance Driven</span>
+                                    <span class="stat-val" id="stat-total-dist">0 m</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-name">Total Coins Earned</span>
+                                    <span class="stat-val" id="stat-total-coins">0 🪙</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-name">Total Airtime Flips</span>
+                                    <span class="stat-val" id="stat-total-flips">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-name">Stages Unlocked</span>
+                                    <span class="stat-val" id="stat-stages-count">1 / 6</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-name">Vehicles Owned</span>
+                                    <span class="stat-val" id="stat-vehicles-count">1 / 6</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Total Coins Earned</span>
-                            <span class="stat-val" id="stat-total-coins">0 🪙</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Total Airtime Flips</span>
-                            <span class="stat-val" id="stat-total-flips">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Stages Unlocked</span>
-                            <span class="stat-val" id="stat-stages-count">1 / 5</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-name">Vehicles Owned</span>
-                            <span class="stat-val" id="stat-vehicles-count">1 / 6</span>
+                        <div class="stats-right">
+                            <h2 class="section-title">GLOBAL LEADERBOARD</h2>
+                            <div class="leaderboard-panel glass-card">
+                                <div class="leaderboard-header">
+                                    <span class="lb-col-rank">RANK</span>
+                                    <span class="lb-col-driver">DRIVER</span>
+                                    <span class="lb-col-dist">TOTAL DISTANCE</span>
+                                </div>
+                                <div id="leaderboard-list">
+                                    <!-- Populated dynamically by app.js -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
