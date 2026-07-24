@@ -13,17 +13,10 @@ app.use(express.json());
 // Serve static game client files
 app.use(express.static(__dirname));
 
-// Initialize leaderboard file with default real-looking community drivers if it doesn't exist
+// Initialize leaderboard file as empty if it doesn't exist
+// Only real players who actually play the game will appear
 if (!fs.existsSync(DATA_FILE)) {
-    const initialLeaderboard = [
-        { name: "MaxTorque", avatar: "🏎️", distance: 15430 },
-        { name: "HillKing", avatar: "🚙", distance: 12050 },
-        { name: "AlienRacer", avatar: "👽", distance: 9840 },
-        { name: "LunarRover9", avatar: "👩‍🚀", distance: 7520 },
-        { name: "MudCrawler", avatar: "🚜", distance: 5410 },
-        { name: "TurboRookie", avatar: "🐱", distance: 2310 }
-    ];
-    fs.writeFileSync(DATA_FILE, JSON.stringify(initialLeaderboard, null, 2));
+    fs.writeFileSync(DATA_FILE, JSON.stringify([], null, 2));
 }
 
 // GET: Fetch sorted leaderboard list

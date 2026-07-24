@@ -60,16 +60,37 @@ class AppController {
         localStorage.setItem('hillclimb_player_save', JSON.stringify(data));
         this.updateHeaderBadges();
 
-        // Submit driver details to the Express Backend API
-        fetch('/api/leaderboard', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: this.player.name,
-                avatar: this.player.avatar,
-                distance: this.player.totalDistance
-            })
-        }).catch(err => console.warn("Leaderboard backend offline, saving locally."));
+        // Push score to Firebase Realtime Database (only real players who play the game)
+        this.pushScoreToFirebase();
+    }
+
+    pushScoreToFirebase() {
+        if (!window.firebaseReady || !window.firebaseDb) return;
+        if (!this.player.name || this.player.name === 'Driver 1') return; // Only push real named players
+        if (this.player.totalDistance === 0) return; // Only push after a real run
+
+        const db = window.firebaseDb;
+        const dbRef = window.firebaseRef;
+        const dbGet = window.firebaseGet;
+        const dbSet = window.firebaseSet;
+        const dbChild = window.firebaseChild;
+
+        // Use player name (sanitized) as unique key
+        const nameKey = this.player.name.replace(/[.#$[\]]/g, '_').toLowerCase();
+        const playerRef = dbRef(db, 'leaderboard/' + nameKey);
+
+        dbGet(playerRef).then(snapshot => {
+            const existing = snapshot.val();
+            // Only update if new distance beats the existing record (or no record yet)
+            if (!existing || this.player.totalDistance > existing.distance) {
+                dbSet(playerRef, {
+                    name: this.player.name,
+                    avatar: this.player.avatar,
+                    distance: this.player.totalDistance,
+                    updatedAt: Date.now()
+                });
+            }
+        }).catch(err => console.warn("Firebase write error:", err));
     }
 
     updateHeaderBadges() {
@@ -453,30 +474,44 @@ class AppController {
     fetchLeaderboard() {
         const lbContainer = document.getElementById('leaderboard-list');
         if (!lbContainer) return;
-        lbContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#a0aec0;">Loading Global Rankings... 🔄</div>';
+        lbContainer.innerHTML = '<div style="text-align:center;padding:30px;color:#a0aec0;font-size:1.1rem;">Loading Global Rankings... 🔄</div>';
 
-        // Submit/update score before fetching to ensure rank is updated
-        fetch('/api/leaderboard', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: this.player.name,
-                avatar: this.player.avatar,
-                distance: this.player.totalDistance
-            })
-        })
-        .then(() => fetch('/api/leaderboard'))
-        .then(res => res.json())
-        .then(data => {
+        if (!window.firebaseReady || !window.firebaseDb) {
+            // Firebase not configured yet — show setup instructions
+            lbContainer.innerHTML = `
+                <div style="text-align:center;padding:30px;line-height:2;color:#e2e8f0;">
+                    <div style="font-size:2.5rem;">🔥</div>
+                    <strong style="font-size:1.2rem;color:#f1c40f;">Connect Firebase to enable Global Leaderboard!</strong><br/>
+                    <span style="color:#a0aec0;font-size:0.95rem;">
+                        1. Go to <a href="https://console.firebase.google.com" target="_blank" style="color:#4ecdc4;">console.firebase.google.com</a><br/>
+                        2. Create a free project → Realtime Database → Start in test mode<br/>
+                        3. Paste your config into the Firebase block in <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">index.html</code>
+                    </span>
+                </div>`;
+            return;
+        }
+
+        // Push the current player's score before loading the board
+        this.pushScoreToFirebase();
+
+        const db = window.firebaseDb;
+        const dbRef = window.firebaseRef;
+        const dbGet = window.firebaseGet;
+
+        // Read all leaderboard entries from Firebase
+        dbGet(dbRef(db, 'leaderboard')).then(snapshot => {
             lbContainer.innerHTML = '';
-            
-            if (!Array.isArray(data) || data.length === 0) {
-                lbContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#e74c3c;">No scores posted yet! Drive to post yours.</div>';
+            const rawData = snapshot.val();
+
+            if (!rawData) {
+                lbContainer.innerHTML = '<div style="text-align:center;padding:30px;color:#a0aec0;">No players yet! Be the first to drive and post your score. 🚗</div>';
                 return;
             }
 
-            // Render rows
-            data.forEach((item, index) => {
+            // Convert object of players to sorted array
+            const players = Object.values(rawData).sort((a, b) => b.distance - a.distance);
+
+            players.forEach((item, index) => {
                 const rank = index + 1;
                 let rankDisplay = `#${rank}`;
                 if (rank === 1) rankDisplay = "🥇 1st";
@@ -488,22 +523,15 @@ class AppController {
                 const row = document.createElement('div');
                 row.className = `leaderboard-row ${isCurrentPlayer ? 'player-row' : ''}`;
                 row.innerHTML = `
-                    <span class="lb-col-rank rank-badge-${rank}">${rankDisplay}</span>
-                    <span class="lb-col-driver">${item.avatar} ${item.name} ${isCurrentPlayer ? '<strong>(YOU)</strong>' : ''}</span>
-                    <span class="lb-col-dist">${item.distance.toLocaleString()} m</span>
+                    <span class="lb-col-rank rank-badge-${Math.min(rank, 4)}">${rankDisplay}</span>
+                    <span class="lb-col-driver">${item.avatar || '🏎️'} ${item.name}${isCurrentPlayer ? ' <strong style="color:#2ecc71;">(YOU)</strong>' : ''}</span>
+                    <span class="lb-col-dist">${Number(item.distance).toLocaleString()} m</span>
                 `;
                 lbContainer.appendChild(row);
             });
-        })
-        .catch(err => {
-            console.error("Leaderboard fetch error:", err);
-            lbContainer.innerHTML = `
-                <div style="text-align:center; padding:20px; color:#e74c3c; line-height:1.6;">
-                    <strong>Leaderboard Server is Offline</strong><br/>
-                    Start the Express backend by running:<br/>
-                    <code style="background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; font-family:monospace;">npm start</code> in your project directory!
-                </div>
-            `;
+        }).catch(err => {
+            console.error("Firebase read error:", err);
+            lbContainer.innerHTML = `<div style="text-align:center;padding:30px;color:#e74c3c;">Error loading leaderboard. Check your Firebase config in index.html.</div>`;
         });
     }
 

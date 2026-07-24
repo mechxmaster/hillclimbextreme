@@ -349,6 +349,43 @@
 
     </div>
 
+    <!-- Firebase SDK (Real-time Global Leaderboard Backend) -->
+    <script type="module">
+        // Firebase configuration - uses your project's Realtime Database
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+        import { getDatabase, ref, set, get, child, onValue, push } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+        // ================================================
+        // YOUR FIREBASE PROJECT CONFIG
+        // To use: Create a project at https://console.firebase.google.com
+        // Then paste your config below
+        // ================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDEMO-REPLACE-WITH-YOUR-FIREBASE-KEY",
+            authDomain: "hillclimb-extreme.firebaseapp.com",
+            databaseURL: "https://hillclimb-extreme-default-rtdb.firebaseio.com",
+            projectId: "hillclimb-extreme",
+            storageBucket: "hillclimb-extreme.appspot.com",
+            messagingSenderId: "000000000000",
+            appId: "1:000000000000:web:000000000000000000"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Expose globally so app.js can use it
+        window.firebaseDb = db;
+        window.firebaseRef = ref;
+        window.firebaseSet = set;
+        window.firebaseGet = get;
+        window.firebaseChild = child;
+        window.firebaseOnValue = onValue;
+        window.firebaseReady = true;
+
+        console.log("Firebase initialized!");
+    </script>
+
     <!-- Application Script Files -->
     <script src="js/audio.js"></script>
     <script src="js/physics.js"></script>
