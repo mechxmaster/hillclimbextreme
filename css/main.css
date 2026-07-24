@@ -1345,13 +1345,41 @@ html, body, button, input, canvas, .pedal, .tab-btn {
 }
 
 /* ==========================================
-   MOBILE & TABLET RESPONSIVE RE-ARCHITECTURE
+   MOBILE RESPONSIVE ARCHITECTURE (PORTRAIT & LANDSCAPE)
    ========================================== */
+
+/* Header behavior on small screens: prevent title text overlapping profile badge */
+@media (max-width: 650px) {
+    #top-bar {
+        height: 48px;
+        padding: 0 8px;
+    }
+    .brand-title {
+        display: none; /* Hide text title on small screens so profile badge & coins never overlap */
+    }
+    .brand-logo {
+        display: block;
+        font-size: 1.4rem;
+    }
+    .user-resources {
+        gap: 6px;
+    }
+    .resource-badge {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    .profile-badge #player-name {
+        max-width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
 
 @media (max-width: 900px) {
     #dashboard-screen {
-        padding: 8px 12px 20px 12px;
-        height: calc(100dvh - 52px);
+        padding: 8px 10px 20px 10px;
+        height: calc(100dvh - 48px);
     }
 
     /* Single-line horizontal scroll tab navigation strip */
@@ -1364,20 +1392,20 @@ html, body, button, input, canvas, .pedal, .tab-btn {
         margin-bottom: 10px;
         padding: 4px 2px;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
+        scrollbar-width: none;
     }
     .dashboard-tabs::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+        display: none;
     }
     .tab-btn {
         flex: 0 0 auto;
-        font-size: 1rem;
-        padding: 6px 14px;
+        font-size: 0.95rem;
+        padding: 6px 12px;
         border-radius: 10px;
         white-space: nowrap;
     }
 
-    /* Garage layout on mobile: Vertical stack with Horizontal Swipe Car Selector */
+    /* Garage layout on mobile */
     .garage-layout {
         display: flex;
         flex-direction: column;
@@ -1387,19 +1415,19 @@ html, body, button, input, canvas, .pedal, .tab-btn {
         width: 100%;
     }
     .section-title {
-        font-size: 1.4rem;
-        margin-bottom: 8px;
+        font-size: 1.3rem;
+        margin-bottom: 6px;
     }
 
-    /* Horizontal swipe bar for selecting vehicles on mobile */
+    /* Horizontal swipe bar for selecting vehicles */
     .vehicle-carousel {
         display: flex;
         flex-direction: row;
         overflow-x: auto;
         flex-wrap: nowrap;
-        gap: 10px;
+        gap: 8px;
         max-height: none;
-        padding: 4px 2px 10px 2px;
+        padding: 4px 2px 8px 2px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
@@ -1407,209 +1435,167 @@ html, body, button, input, canvas, .pedal, .tab-btn {
         display: none;
     }
     .vehicle-card {
-        flex: 0 0 140px;
-        min-width: 140px;
-        padding: 8px 10px;
+        flex: 0 0 130px;
+        min-width: 130px;
+        padding: 6px 8px;
     }
     .vehicle-card .card-icon {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     .vehicle-card h3 {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 
     /* Tuning Panel & Canvas */
     .vehicle-tuning-panel {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
     }
     .vehicle-display-box {
-        height: 140px;
-        padding: 8px;
+        height: 130px;
+        padding: 6px;
     }
     #garage-vehicle-canvas {
         width: 100%;
-        height: 140px;
+        height: 130px;
     }
 
-    /* Upgrades grid: 2 columns on mobile so all 4 upgrades fit neatly */
+    /* Upgrades grid: 2 columns with full button text visibility */
     .upgrades-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
+        gap: 6px;
     }
     .upgrade-card {
-        padding: 8px 10px;
+        padding: 6px 8px;
+    }
+    .stat-info {
+        font-size: 0.8rem;
     }
     .upgrade-btn {
-        padding: 6px 8px;
-        font-size: 0.85rem;
+        padding: 6px 4px;
+        font-size: 0.8rem;
+        font-family: var(--font-heading);
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        width: 100%;
+        text-align: center;
+        white-space: nowrap;
     }
 
     /* Modals responsive */
     .modal-card {
         width: 94%;
-        max-width: 400px;
+        max-width: 380px;
         padding: 16px;
         max-height: 85dvh;
     }
 
     /* Leaderboard on mobile */
     .leaderboard-header, .leaderboard-row {
-        grid-template-columns: 60px 1fr 100px;
-        padding: 8px 10px;
-        font-size: 0.9rem;
+        grid-template-columns: 50px 1fr 90px;
+        padding: 8px 8px;
+        font-size: 0.85rem;
     }
     .lb-col-dist {
-        font-size: 1rem;
+        font-size: 0.95rem;
+    }
+
+    /* GAMEPLAY HUD & PEDAL CONTROLS IN MOBILE (PORTRAIT & LANDSCAPE) */
+    #game-hud {
+        padding: 10px;
+    }
+    #pedal-controls {
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        padding: 0 10px;
+        z-index: 200;
+        pointer-events: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    .pedal {
+        width: 105px;
+        height: 85px;
+        flex-shrink: 0;
+    }
+    .fuel-container {
+        width: 120px;
+        padding: 4px 8px;
+    }
+    .hud-dials {
+        display: none; /* Hide speedometer dials on mobile so pedals take full focus */
     }
 }
 
-/* ==========================================
-   ORIENTATION WARNING OVERLAY (PORTRAIT DETECTOR)
-   ========================================== */
-#orientation-warning-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100dvh;
-    background: radial-gradient(circle at center, #1a233a 0%, #0a0e1a 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    z-index: 999999;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
-}
-
-#orientation-warning-overlay .warning-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    max-width: 360px;
-    padding: 30px 24px;
-    border: 2px solid var(--accent-yellow);
-    box-shadow: 0 0 40px rgba(241, 196, 15, 0.3);
-}
-
-.phone-rotate-icon {
-    font-size: 4.5rem;
-    animation: rotatePhoneAnim 2.5s infinite ease-in-out;
-    margin-bottom: 5px;
-}
-
-@keyframes rotatePhoneAnim {
-    0% { transform: rotate(0deg); }
-    40% { transform: rotate(-90deg); }
-    60% { transform: rotate(-90deg); }
-    100% { transform: rotate(0deg); }
-}
-
-#orientation-warning-overlay h2 {
-    font-family: var(--font-heading);
-    font-size: 2.2rem;
-    color: var(--accent-yellow);
-    letter-spacing: 1px;
-    line-height: 1.1;
-}
-
-#orientation-warning-overlay p {
-    font-size: 1rem;
-    color: #e2e8f0;
-    line-height: 1.5;
-}
-
-.sub-hint {
-    font-size: 0.9rem;
-    color: var(--accent-green);
-    font-weight: 700;
-}
-
-/* SHOW WARNING IN PORTRAIT MODE ON PHONES & TABLETS */
-@media screen and (orientation: portrait) and (max-width: 900px) {
-    #orientation-warning-overlay {
-        display: flex !important;
-    }
-}
-
-/* HIDE WARNING & OPTIMIZE IN LANDSCAPE MODE */
-@media screen and (orientation: landscape) {
-    #orientation-warning-overlay {
-        display: none !important;
-    }
-}
-
-/* Landscape Mode on mobile screens (max-height: 520px) */
+/* Landscape Mode layout refinements for mobile screens (height <= 520px) */
 @media screen and (orientation: landscape) and (max-height: 520px) {
     #top-bar {
-        height: 42px;
-        padding: 0 12px;
-    }
-    .brand-title {
-        font-size: 1.2rem;
-    }
-    .resource-badge {
-        padding: 3px 8px;
-        font-size: 0.8rem;
+        height: 40px;
+        padding: 0 10px;
     }
     #dashboard-screen {
-        padding: 6px 12px;
-        height: calc(100dvh - 42px);
+        padding: 4px 10px 15px 10px;
+        height: calc(100dvh - 40px);
     }
     .dashboard-tabs {
-        margin-bottom: 6px;
-        gap: 6px;
+        margin-bottom: 4px;
+        gap: 4px;
     }
     .tab-btn {
-        font-size: 0.95rem;
-        padding: 4px 12px;
-        border-radius: 8px;
+        font-size: 0.9rem;
+        padding: 4px 10px;
+        border-radius: 6px;
     }
     .section-title {
-        font-size: 1.2rem;
-        margin-bottom: 4px;
+        font-size: 1.1rem;
+        margin-bottom: 2px;
     }
     .garage-layout {
         display: grid;
-        grid-template-columns: 240px 1fr;
-        gap: 12px;
+        grid-template-columns: 200px 1fr;
+        gap: 10px;
         height: auto;
     }
     .vehicle-carousel {
         display: flex;
         flex-direction: column;
-        max-height: 220px;
+        max-height: 200px;
         overflow-y: auto;
     }
     .vehicle-card {
-        padding: 6px 10px;
+        padding: 5px 8px;
+        min-width: unset;
     }
     .vehicle-display-box {
-        height: 100px;
-        padding: 4px;
+        height: 90px;
+        padding: 2px;
     }
     #garage-vehicle-canvas {
         width: 100%;
-        height: 100px;
+        height: 90px;
     }
     .upgrades-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 6px;
+        gap: 4px;
     }
     .upgrade-card {
-        padding: 5px 8px;
+        padding: 4px 6px;
     }
     .upgrade-btn {
-        padding: 4px;
-        font-size: 0.8rem;
+        padding: 3px;
+        font-size: 0.75rem;
     }
     #start-race-btn {
-        margin-top: 6px;
-        padding: 8px 16px;
-        font-size: 1.1rem;
+        margin-top: 4px;
+        padding: 6px 14px;
+        font-size: 1rem;
+    }
+    .pedal {
+        width: 90px;
+        height: 70px;
     }
 }
