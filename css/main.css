@@ -639,23 +639,16 @@ body, html {
     color: white;
 }
 
-/* STATS LAYOUT & GLOBAL LEADERBOARD */
-.stats-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    align-items: start;
+/* STATS & GLOBAL LEADERBOARD TABS */
+.stats-panel, .leaderboard-panel {
+    display: flex;
+    flex-direction: column;
+    max-width: 760px;
+    margin: 0 auto;
     width: 100%;
 }
 
-.stats-left, .stats-right {
-    display: flex;
-    flex-direction: column;
-}
-
 .stats-panel {
-    display: flex;
-    flex-direction: column;
     gap: 12px;
 }
 
@@ -676,10 +669,10 @@ body, html {
 }
 
 .leaderboard-panel {
-    display: flex;
-    flex-direction: column;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .leaderboard-header {

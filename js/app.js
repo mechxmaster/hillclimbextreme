@@ -59,6 +59,17 @@ class AppController {
         };
         localStorage.setItem('hillclimb_player_save', JSON.stringify(data));
         this.updateHeaderBadges();
+
+        // Submit driver details to the Express Backend API
+        fetch('/api/leaderboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: this.player.name,
+                avatar: this.player.avatar,
+                distance: this.player.totalDistance
+            })
+        }).catch(err => console.warn("Leaderboard backend offline, saving locally."));
     }
 
     updateHeaderBadges() {
@@ -105,6 +116,7 @@ class AppController {
 
                 soundEngine.playClick();
                 if (targetTab === 'stats') this.renderStats();
+                if (targetTab === 'leaderboard') this.fetchLeaderboard();
             });
         });
 
@@ -436,43 +448,62 @@ class AppController {
         document.getElementById('stat-total-flips').innerText = `${this.player.totalFlips}`;
         document.getElementById('stat-stages-count').innerText = `${Object.keys(STAGE_THEMES).length} Unlocked`;
         document.getElementById('stat-vehicles-count').innerText = `${this.cardManager.unlockedVehicles.length} / ${Object.keys(VEHICLES_DATABASE).length}`;
+    }
 
-        // Global Leaderboard Population
+    fetchLeaderboard() {
         const lbContainer = document.getElementById('leaderboard-list');
         if (!lbContainer) return;
-        lbContainer.innerHTML = '';
+        lbContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#a0aec0;">Loading Global Rankings... 🔄</div>';
 
-        // AI Rivals
-        const list = [
-            { name: "Bill (Jeep Pro)", avatar: "👨‍✈️", distance: 15430, isPlayer: false },
-            { name: "Suresh (Tank Driver)", avatar: "👽", distance: 9840, isPlayer: false },
-            { name: "Elena (Buggy Queen)", avatar: "👩‍🚀", distance: 7520, isPlayer: false },
-            { name: "Jack (Crawler King)", avatar: "🤖", distance: 4120, isPlayer: false },
-            { name: "Sarah (Rover Master)", avatar: "👩", distance: 2310, isPlayer: false },
-            { name: "Kenji (Turbo Rookie)", avatar: "🐱", distance: 1200, isPlayer: false },
-            // Add current player
-            { name: `${this.player.name} (YOU)`, avatar: this.player.avatar, distance: this.player.totalDistance, isPlayer: true }
-        ];
+        // Submit/update score before fetching to ensure rank is updated
+        fetch('/api/leaderboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: this.player.name,
+                avatar: this.player.avatar,
+                distance: this.player.totalDistance
+            })
+        })
+        .then(() => fetch('/api/leaderboard'))
+        .then(res => res.json())
+        .then(data => {
+            lbContainer.innerHTML = '';
+            
+            if (!Array.isArray(data) || data.length === 0) {
+                lbContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#e74c3c;">No scores posted yet! Drive to post yours.</div>';
+                return;
+            }
 
-        // Sort descending by total distance driven
-        list.sort((a, b) => b.distance - a.distance);
+            // Render rows
+            data.forEach((item, index) => {
+                const rank = index + 1;
+                let rankDisplay = `#${rank}`;
+                if (rank === 1) rankDisplay = "🥇 1st";
+                else if (rank === 2) rankDisplay = "🥈 2nd";
+                else if (rank === 3) rankDisplay = "🥉 3rd";
 
-        // Render rows
-        list.forEach((item, index) => {
-            const rank = index + 1;
-            let rankDisplay = `#${rank}`;
-            if (rank === 1) rankDisplay = "🥇 1st";
-            else if (rank === 2) rankDisplay = "🥈 2nd";
-            else if (rank === 3) rankDisplay = "🥉 3rd";
+                const isCurrentPlayer = item.name.toLowerCase() === this.player.name.toLowerCase();
 
-            const row = document.createElement('div');
-            row.className = `leaderboard-row ${item.isPlayer ? 'player-row' : ''}`;
-            row.innerHTML = `
-                <span class="lb-col-rank rank-badge-${rank}">${rankDisplay}</span>
-                <span class="lb-col-driver">${item.avatar} ${item.name}</span>
-                <span class="lb-col-dist">${item.distance.toLocaleString()} m</span>
+                const row = document.createElement('div');
+                row.className = `leaderboard-row ${isCurrentPlayer ? 'player-row' : ''}`;
+                row.innerHTML = `
+                    <span class="lb-col-rank rank-badge-${rank}">${rankDisplay}</span>
+                    <span class="lb-col-driver">${item.avatar} ${item.name} ${isCurrentPlayer ? '<strong>(YOU)</strong>' : ''}</span>
+                    <span class="lb-col-dist">${item.distance.toLocaleString()} m</span>
+                `;
+                lbContainer.appendChild(row);
+            });
+        })
+        .catch(err => {
+            console.error("Leaderboard fetch error:", err);
+            lbContainer.innerHTML = `
+                <div style="text-align:center; padding:20px; color:#e74c3c; line-height:1.6;">
+                    <strong>Leaderboard Server is Offline</strong><br/>
+                    Start the Express backend by running:<br/>
+                    <code style="background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; font-family:monospace;">npm start</code> in your project directory!
+                </div>
             `;
-            lbContainer.appendChild(row);
         });
     }
 

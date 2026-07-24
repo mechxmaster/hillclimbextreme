@@ -38,12 +38,12 @@
 
         <!-- Main Dashboard View (Home, Garage, Stages, Shop) -->
         <main id="dashboard-screen" class="screen active">
-            <!-- Navigation Tabs -->
             <nav class="dashboard-tabs">
                 <button class="tab-btn active" data-tab="garage"><span class="tab-icon">🚗</span> GARAGE</button>
                 <button class="tab-btn" data-tab="stages"><span class="tab-icon">🏔️</span> STAGES</button>
                 <button class="tab-btn" data-tab="shop"><span class="tab-icon">🎁</span> CARD SHOP</button>
-                <button class="tab-btn" data-tab="stats"><span class="tab-icon">🏆</span> STATS</button>
+                <button class="tab-btn" data-tab="leaderboard"><span class="tab-icon">🏆</span> LEADERBOARD</button>
+                <button class="tab-btn" data-tab="stats"><span class="tab-icon">📊</span> STATS</button>
             </nav>
 
             <div class="dashboard-content">
@@ -151,46 +151,44 @@
                     </div>
                 </section>
 
-                <!-- TAB 4: PLAYER STATS -->
-                <section id="tab-stats" class="tab-content">
-                    <div class="stats-layout">
-                        <div class="stats-left">
-                            <h2 class="section-title">DRIVER CAREER STATISTICS</h2>
-                            <div class="stats-panel glass-card">
-                                <div class="stat-item">
-                                    <span class="stat-name">Total Distance Driven</span>
-                                    <span class="stat-val" id="stat-total-dist">0 m</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-name">Total Coins Earned</span>
-                                    <span class="stat-val" id="stat-total-coins">0 🪙</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-name">Total Airtime Flips</span>
-                                    <span class="stat-val" id="stat-total-flips">0</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-name">Stages Unlocked</span>
-                                    <span class="stat-val" id="stat-stages-count">1 / 6</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-name">Vehicles Owned</span>
-                                    <span class="stat-val" id="stat-vehicles-count">1 / 6</span>
-                                </div>
-                            </div>
+                <!-- TAB 4: GLOBAL LEADERBOARD -->
+                <section id="tab-leaderboard" class="tab-content">
+                    <h2 class="section-title">GLOBAL LEADERBOARD (RANKING)</h2>
+                    <div class="leaderboard-panel glass-card">
+                        <div class="leaderboard-header">
+                            <span class="lb-col-rank">RANK</span>
+                            <span class="lb-col-driver">DRIVER</span>
+                            <span class="lb-col-dist">TOTAL DISTANCE</span>
                         </div>
-                        <div class="stats-right">
-                            <h2 class="section-title">GLOBAL LEADERBOARD</h2>
-                            <div class="leaderboard-panel glass-card">
-                                <div class="leaderboard-header">
-                                    <span class="lb-col-rank">RANK</span>
-                                    <span class="lb-col-driver">DRIVER</span>
-                                    <span class="lb-col-dist">TOTAL DISTANCE</span>
-                                </div>
-                                <div id="leaderboard-list">
-                                    <!-- Populated dynamically by app.js -->
-                                </div>
-                            </div>
+                        <div id="leaderboard-list">
+                            <!-- Populated dynamically by app.js from Express backend -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: PLAYER STATS -->
+                <section id="tab-stats" class="tab-content">
+                    <h2 class="section-title">DRIVER CAREER STATISTICS</h2>
+                    <div class="stats-panel glass-card">
+                        <div class="stat-item">
+                            <span class="stat-name">Total Distance Driven</span>
+                            <span class="stat-val" id="stat-total-dist">0 m</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">Total Coins Earned</span>
+                            <span class="stat-val" id="stat-total-coins">0 🪙</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">Total Airtime Flips</span>
+                            <span class="stat-val" id="stat-total-flips">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">Stages Unlocked</span>
+                            <span class="stat-val" id="stat-stages-count">1 / 6</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">Vehicles Owned</span>
+                            <span class="stat-val" id="stat-vehicles-count">1 / 6</span>
                         </div>
                     </div>
                 </section>
