@@ -351,39 +351,36 @@
 
     <!-- Firebase SDK (Real-time Global Leaderboard Backend) -->
     <script type="module">
-        // Firebase configuration - uses your project's Realtime Database
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-        import { getDatabase, ref, set, get, child, onValue, push } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+        import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
-        // ================================================
-        // YOUR FIREBASE PROJECT CONFIG
-        // To use: Create a project at https://console.firebase.google.com
-        // Then paste your config below
-        // ================================================
+        // ✅ Your Firebase project configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDEMO-REPLACE-WITH-YOUR-FIREBASE-KEY",
-            authDomain: "hillclimb-extreme.firebaseapp.com",
-            databaseURL: "https://hillclimb-extreme-default-rtdb.firebaseio.com",
-            projectId: "hillclimb-extreme",
-            storageBucket: "hillclimb-extreme.appspot.com",
-            messagingSenderId: "000000000000",
-            appId: "1:000000000000:web:000000000000000000"
+            apiKey: "AIzaSyBcPBYWYREuPZrpBZ8kcDVzSJj4G00NDrY",
+            authDomain: "hillclimb-extreme-9c14a.firebaseapp.com",
+            databaseURL: "https://hillclimb-extreme-9c14a-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "hillclimb-extreme-9c14a",
+            storageBucket: "hillclimb-extreme-9c14a.firebasestorage.app",
+            messagingSenderId: "242194060196",
+            appId: "1:242194060196:web:00dfd0f2fa51af81f16731",
+            measurementId: "G-PV0NXL58GK"
         };
 
-        // Initialize Firebase
+        // Initialize Firebase app & services
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const db = getDatabase(app);
 
-        // Expose globally so app.js can use it
+        // Expose to global scope so app.js can use Firebase
         window.firebaseDb = db;
         window.firebaseRef = ref;
         window.firebaseSet = set;
         window.firebaseGet = get;
-        window.firebaseChild = child;
         window.firebaseOnValue = onValue;
         window.firebaseReady = true;
 
-        console.log("Firebase initialized!");
+        console.log("✅ Firebase connected! Hill Climb Extreme leaderboard is live.");
     </script>
 
     <!-- Application Script Files -->
