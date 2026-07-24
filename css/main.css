@@ -1465,55 +1465,151 @@ html, body, button, input, canvas, .pedal, .tab-btn {
     }
 }
 
-/* Extra Small Phones (max-width: 480px) */
-@media (max-width: 480px) {
+/* ==========================================
+   ORIENTATION WARNING OVERLAY (PORTRAIT DETECTOR)
+   ========================================== */
+#orientation-warning-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background: radial-gradient(circle at center, #1a233a 0%, #0a0e1a 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 999999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+#orientation-warning-overlay .warning-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 360px;
+    padding: 30px 24px;
+    border: 2px solid var(--accent-yellow);
+    box-shadow: 0 0 40px rgba(241, 196, 15, 0.3);
+}
+
+.phone-rotate-icon {
+    font-size: 4.5rem;
+    animation: rotatePhoneAnim 2.5s infinite ease-in-out;
+    margin-bottom: 5px;
+}
+
+@keyframes rotatePhoneAnim {
+    0% { transform: rotate(0deg); }
+    40% { transform: rotate(-90deg); }
+    60% { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
+}
+
+#orientation-warning-overlay h2 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--accent-yellow);
+    letter-spacing: 1px;
+    line-height: 1.1;
+}
+
+#orientation-warning-overlay p {
+    font-size: 1rem;
+    color: #e2e8f0;
+    line-height: 1.5;
+}
+
+.sub-hint {
+    font-size: 0.9rem;
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+/* SHOW WARNING IN PORTRAIT MODE ON PHONES & TABLETS */
+@media screen and (orientation: portrait) and (max-width: 900px) {
+    #orientation-warning-overlay {
+        display: flex !important;
+    }
+}
+
+/* HIDE WARNING & OPTIMIZE IN LANDSCAPE MODE */
+@media screen and (orientation: landscape) {
+    #orientation-warning-overlay {
+        display: none !important;
+    }
+}
+
+/* Landscape Mode on mobile screens (max-height: 520px) */
+@media screen and (orientation: landscape) and (max-height: 520px) {
     #top-bar {
-        height: 48px;
-        padding: 0 8px;
+        height: 42px;
+        padding: 0 12px;
     }
     .brand-title {
-        font-size: 1.1rem;
-    }
-    .brand-logo {
-        display: none;
+        font-size: 1.2rem;
     }
     .resource-badge {
-        padding: 3px 7px;
-        font-size: 0.75rem;
+        padding: 3px 8px;
+        font-size: 0.8rem;
     }
-    .profile-badge #player-name {
-        max-width: 55px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    #dashboard-screen {
+        padding: 6px 12px;
+        height: calc(100dvh - 42px);
+    }
+    .dashboard-tabs {
+        margin-bottom: 6px;
+        gap: 6px;
+    }
+    .tab-btn {
+        font-size: 0.95rem;
+        padding: 4px 12px;
+        border-radius: 8px;
+    }
+    .section-title {
+        font-size: 1.2rem;
+        margin-bottom: 4px;
+    }
+    .garage-layout {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 12px;
+        height: auto;
+    }
+    .vehicle-carousel {
+        display: flex;
+        flex-direction: column;
+        max-height: 220px;
+        overflow-y: auto;
+    }
+    .vehicle-card {
+        padding: 6px 10px;
+    }
+    .vehicle-display-box {
+        height: 100px;
+        padding: 4px;
+    }
+    #garage-vehicle-canvas {
+        width: 100%;
+        height: 100px;
     }
     .upgrades-grid {
         grid-template-columns: 1fr 1fr;
         gap: 6px;
     }
-    .stat-label {
-        font-size: 0.7rem;
+    .upgrade-card {
+        padding: 5px 8px;
     }
     .upgrade-btn {
-        font-size: 0.75rem;
-        padding: 5px;
+        padding: 4px;
+        font-size: 0.8rem;
     }
-    .pedal {
-        width: 90px;
-        height: 75px;
-    }
-    .pedal-top-icon {
-        font-size: 1.2rem;
-    }
-    .pedal-label {
-        font-size: 0.65rem;
-    }
-    .fuel-container {
-        width: 110px;
-        padding: 4px 8px;
-    }
-    #minimap-canvas {
-        width: 110px;
-        height: 28px;
+    #start-race-btn {
+        margin-top: 6px;
+        padding: 8px 16px;
+        font-size: 1.1rem;
     }
 }

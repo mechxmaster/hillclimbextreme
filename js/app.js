@@ -25,6 +25,11 @@ class AppController {
     init() {
         this.loadProfile();
 
+        // Attempt to lock screen to landscape mode on mobile/PWA browsers
+        if (window.screen && window.screen.orientation && window.screen.orientation.lock) {
+            window.screen.orientation.lock('landscape').catch(() => {});
+        }
+
         // Initialize Canvas
         const gameCanvas = document.getElementById('game-canvas');
         if (gameCanvas) {
